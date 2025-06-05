@@ -1,6 +1,8 @@
-package org.example.springboot_project;
+package org.example.springboot_project.login;
 
 import jakarta.annotation.PostConstruct;
+import org.example.springboot_project.model.AppUser;
+import org.example.springboot_project.web.AppUserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Component;

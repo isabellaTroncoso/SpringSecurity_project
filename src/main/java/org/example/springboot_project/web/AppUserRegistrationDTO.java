@@ -1,47 +1,19 @@
-package org.example.springboot_project;
+package org.example.springboot_project.web;
 
-import jakarta.persistence.*;
-
-@Entity
-public class AppUser {
-
-    @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long id;
-
-    @Column(unique=true)
+public class AppUserRegistrationDTO {
     private String username;
-
     private String password;
-
     private boolean consentGiven;
-
     private String role;
 
-    public AppUser() {
-    }
+    public AppUserRegistrationDTO() {
 
-    public AppUser(String username, String password, boolean consentGiven, String role) {
+    }
+    public AppUserRegistrationDTO(String username, String password, boolean consentGiven, String role) {
         this.username = username;
         this.password = password;
         this.consentGiven = consentGiven;
         this.role = role;
-    }
-
-    public AppUser(Long id, String username, String password, boolean consentGiven, String role) {
-        this.id = id;
-        this.username = username;
-        this.password = password;
-        this.consentGiven = consentGiven;
-        this.role = role;
-    }
-
-    public Long getId() {
-        return id;
-    }
-
-    public void setId(Long id) {
-        this.id = id;
     }
 
     public String getUsername() {
