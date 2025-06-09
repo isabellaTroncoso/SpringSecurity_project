@@ -1,5 +1,6 @@
 package org.example.springboot_project.web;
 
+import org.example.springboot_project.repository.AppUserRepository;
 import org.example.springboot_project.model.AppUser;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;

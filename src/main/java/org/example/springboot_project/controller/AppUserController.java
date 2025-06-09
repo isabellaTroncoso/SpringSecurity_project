@@ -1,6 +1,6 @@
 package org.example.springboot_project.controller;
 
-import io.swagger.v3.oas.annotations.parameters.RequestBody;
+import org.springframework.web.bind.annotation.RequestBody;
 import jakarta.validation.Valid;
 import org.example.springboot_project.model.UserRegistrationDTO;
 import org.example.springboot_project.model.AppUser;

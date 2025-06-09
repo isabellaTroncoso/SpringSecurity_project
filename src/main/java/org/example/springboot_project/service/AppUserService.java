@@ -6,7 +6,7 @@ import org.example.springboot_project.model.UserRegistrationDTO;
 import org.example.springboot_project.web.LoggingComponent;
 import org.example.springboot_project.exceptions.UserNotFoundException;
 import org.example.springboot_project.model.AppUser;
-import org.example.springboot_project.web.AppUserRepository;
+import org.example.springboot_project.repository.AppUserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.security.crypto.password.PasswordEncoder;
@@ -61,7 +61,7 @@ public class AppUserService {
     @PostConstruct
     public void init() {
         //vi kollar först om denna användare redan finns
-        if (repository.findByUsername("user") == null) {
+        if (repository.findByUsername("user").isEmpty()) {
             AppUser user = new AppUser();
             user.setUsername("user");
             //lösenordet hashas med passwordEncoders metod encode()

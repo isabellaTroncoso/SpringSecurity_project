@@ -1,4 +1,4 @@
-package org.example.springboot_project.web;
+package org.example.springboot_project.repository;
 
 import org.example.springboot_project.model.AppUser;
 import org.springframework.data.jpa.repository.JpaRepository;
