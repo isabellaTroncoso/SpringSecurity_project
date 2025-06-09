@@ -8,6 +8,7 @@ import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
+import java.util.Optional;
 
 @Service
 public class MyUserDetailsService implements UserDetailsService {
@@ -19,12 +20,14 @@ public class MyUserDetailsService implements UserDetailsService {
 
     @Override
     public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
-        //hämta användaren från databasen via repositoryts metod
-        AppUser appUser = appUserRepository.findByUsername(username);
-        if(appUser == null){
-        //om användaren ej hittas - kasta detta inbyggda exception
+        Optional<AppUser> appUserOptional = appUserRepository.findByUsername(username);
+
+        if (appUserOptional.isEmpty()) {
             throw new UsernameNotFoundException("User not found");
         }
+
+        AppUser appUser = appUserOptional.get();
+
         //returnera ett objekt av Springs klass UserDetails
         //en inbyggd klass i Spring som motsvarar en användare
         return new org.springframework.security.core.userdetails.User(

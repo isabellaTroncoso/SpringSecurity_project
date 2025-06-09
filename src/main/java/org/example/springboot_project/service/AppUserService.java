@@ -1,19 +1,26 @@
 package org.example.springboot_project.service;
 
+import jakarta.annotation.PostConstruct;
 import jakarta.transaction.Transactional;
-import org.example.springboot_project.UserRegistrationDTO;
+import org.example.springboot_project.model.UserRegistrationDTO;
 import org.example.springboot_project.web.LoggingComponent;
 import org.example.springboot_project.exceptions.UserNotFoundException;
 import org.example.springboot_project.model.AppUser;
 import org.example.springboot_project.web.AppUserRepository;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.security.crypto.password.PasswordEncoder;
 
 
 @Service
 public class AppUserService {
+    @Autowired
     private final AppUserRepository repository;
+
+    @Autowired
     private final LoggingComponent logger;
+
+    @Autowired
     private final PasswordEncoder passwordEncoder;
 
     public AppUserService(AppUserRepository repository,
@@ -49,5 +56,18 @@ public class AppUserService {
 
         repository.deleteById(id);
         logger.log("Tog bort användare med ID: " + id);
+    }
+
+    @PostConstruct
+    public void init() {
+        //vi kollar först om denna användare redan finns
+        if (repository.findByUsername("user") == null) {
+            AppUser user = new AppUser();
+            user.setUsername("user");
+            //lösenordet hashas med passwordEncoders metod encode()
+            user.setPassword(passwordEncoder.encode("password"));
+            user.setRole("ADMIN");
+            repository.save(user);
+        }
     }
 }

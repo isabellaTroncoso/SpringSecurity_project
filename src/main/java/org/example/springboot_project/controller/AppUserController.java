@@ -2,7 +2,7 @@ package org.example.springboot_project.controller;
 
 import io.swagger.v3.oas.annotations.parameters.RequestBody;
 import jakarta.validation.Valid;
-import org.example.springboot_project.UserRegistrationDTO;
+import org.example.springboot_project.model.UserRegistrationDTO;
 import org.example.springboot_project.model.AppUser;
 import org.example.springboot_project.service.AppUserService;
 import org.springframework.http.ResponseEntity;
