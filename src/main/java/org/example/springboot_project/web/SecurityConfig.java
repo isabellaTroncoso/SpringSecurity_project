@@ -32,27 +32,27 @@ import java.security.interfaces.RSAPrivateKey;
 import java.security.interfaces.RSAPublicKey;
 import java.util.UUID;
 
-
 @Configuration
 @EnableWebSecurity
 public class SecurityConfig {
+
     @Bean
     public SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
         http
                 .csrf(csrf -> csrf.disable())
-        .sessionManagement(session ->
-                session.sessionCreationPolicy(SessionCreationPolicy.STATELESS))
+                .sessionManagement(session -> session.sessionCreationPolicy(SessionCreationPolicy.STATELESS))
                 .authorizeHttpRequests(authorize -> authorize
-                        .requestMatchers("/request-token").permitAll()
+                        .requestMatchers("/api/login", "/api/register").permitAll()
                         .requestMatchers(
                                 "/swagger-ui.html",
-                                "/swagger-ui/",
-                                "/v3/api-docs/",
-                                "/v3/api-docs.yaml"
+                                "/swagger-ui/**",
+                                "/v3/api-docs/**",
+                                "/v3/api-docs.yaml",
+                                "/swagger-ui/index.html"
                         ).permitAll()
-                        .anyRequest().authenticated())
-                .oauth2ResourceServer(oauth2 ->
-                        oauth2.jwt(jwt -> jwt.jwtAuthenticationConverter(jwtAuthenticationConverter())));
+                        .anyRequest().authenticated()
+                )
+                .oauth2ResourceServer(oauth2 -> oauth2.jwt(jwt -> jwt.jwtAuthenticationConverter(jwtAuthenticationConverter())));
         return http.build();
     }
 
@@ -108,25 +108,7 @@ public class SecurityConfig {
         authenticationConverter.setJwtGrantedAuthoritiesConverter(converter);
         return authenticationConverter;
     }
-
-
-//    @Bean
-//    public UserDetailsService userDetailsService(PasswordEncoder encoder) {
-//        InMemoryUserDetailsManager userDetailsService = new InMemoryUserDetailsManager();
-//        UserDetails user = User.builder()
-//                .username("linnea")
-//                .password(encoder.encode("passwordz"))
-//                .roles("ADMIN")
-//                .build();
-//        userDetailsService.createUser(user);
-//
-//        UserDetails user1 = User.builder()
-//                .username("user")
-//                .password(encoder.encode("passwordz"))
-//                .roles("USER")
-//                .build();
-//        userDetailsService.createUser(user1);
-//
-//        return userDetailsService;
-//    }
 }
+
+
+
