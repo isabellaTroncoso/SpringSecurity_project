@@ -63,6 +63,19 @@ public class LoginTest {
                 .andExpect(status().isOk());
     }
 
+    @Test
+    void shouldRegisterUser() throws Exception {
+        UserRegistrationDTO dto = new UserRegistrationDTO();
+        dto.setUsername("user1");
+        dto.setPassword("Password1");
+        dto.setConsentGiven(true);
+        dto.setRole("ADMIN");
+
+        mockMvc.perform(post("/api/register")
+                        .contentType(MediaType.APPLICATION_JSON)
+                        .content(mapper.writeValueAsString(dto)))
+                .andExpect(status().isOk());
+    }
 
     @Test
     void shouldDeleteUserWithValidToken() throws Exception {
