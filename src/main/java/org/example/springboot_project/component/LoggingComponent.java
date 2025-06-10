@@ -1,4 +1,4 @@
-package org.example.springboot_project.web;
+package org.example.springboot_project.component;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;

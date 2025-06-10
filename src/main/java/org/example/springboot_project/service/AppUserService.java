@@ -3,7 +3,7 @@ package org.example.springboot_project.service;
 import jakarta.annotation.PostConstruct;
 import jakarta.transaction.Transactional;
 import org.example.springboot_project.model.UserRegistrationDTO;
-import org.example.springboot_project.web.LoggingComponent;
+import org.example.springboot_project.component.LoggingComponent;
 import org.example.springboot_project.exceptions.UserNotFoundException;
 import org.example.springboot_project.model.AppUser;
 import org.example.springboot_project.repository.AppUserRepository;

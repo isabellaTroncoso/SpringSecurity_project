@@ -1,6 +1,6 @@
 package org.example.springboot_project.controller;
 
-import org.example.springboot_project.LoginRequest;
+import org.example.springboot_project.model.LoginRequest;
 import org.example.springboot_project.service.TokenService;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;

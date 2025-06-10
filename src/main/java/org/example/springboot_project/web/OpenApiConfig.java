@@ -1,4 +1,4 @@
-package org.example.springboot_project;
+package org.example.springboot_project.web;
 
 import io.swagger.v3.oas.annotations.OpenAPIDefinition;
 import io.swagger.v3.oas.annotations.enums.SecuritySchemeType;
