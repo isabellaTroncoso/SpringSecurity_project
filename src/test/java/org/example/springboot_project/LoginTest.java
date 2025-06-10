@@ -1,6 +1,7 @@
 package org.example.springboot_project;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
+import org.example.springboot_project.model.AppUser;
 import org.example.springboot_project.model.UserRegistrationDTO;
 import org.example.springboot_project.repository.AppUserRepository;
 import org.example.springboot_project.service.TokenService;
@@ -14,6 +15,8 @@ import org.springframework.security.authentication.UsernamePasswordAuthenticatio
 import org.springframework.security.core.Authentication;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.test.web.servlet.MockMvc;
+
+import java.util.Optional;
 
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.delete;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
@@ -77,9 +80,9 @@ public class LoginTest {
 
         // Hämta id på användaren (från databasen direkt om du vill)
 
-        userRepository.findByUsername("testing2");
+        Optional<AppUser> foundUser = userRepository.findByUsername("testing2");
 
-        Long idToDelete = 3L; // Byt mot riktigt ID
+        Long idToDelete = foundUser.get().getId(); // Byt mot riktigt ID
 
 
         Authentication auth = manager.authenticate(
@@ -94,7 +97,7 @@ public class LoginTest {
 
         mockMvc.perform(delete("/api/users/" + idToDelete)
                         .header("Authorization", "Bearer " + token))
-                .andExpect(status().isOk());
+                .andExpect(status().is2xxSuccessful());
     }
 
 }
