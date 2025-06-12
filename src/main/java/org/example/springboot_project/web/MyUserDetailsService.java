@@ -11,6 +11,9 @@ import org.springframework.stereotype.Service;
 import java.util.List;
 import java.util.Optional;
 
+
+// den här klassen hämtar en användare från databasen utifrån användarnamn
+
 @Service
 public class MyUserDetailsService implements UserDetailsService {
     private AppUserRepository appUserRepository;
@@ -19,6 +22,8 @@ public class MyUserDetailsService implements UserDetailsService {
         this.appUserRepository = appUserRepository;
     }
 
+    // den här metoden kollar om en användare finns i databasen
+    // och returnerar ett objekt som motsvarar användaren
     @Override
     public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
         Optional<AppUser> appUserOptional = appUserRepository.findByUsername(username);
@@ -29,13 +34,10 @@ public class MyUserDetailsService implements UserDetailsService {
 
         AppUser appUser = appUserOptional.get();
 
-        //returnera ett objekt av Springs klass UserDetails
-        //en inbyggd klass i Spring som motsvarar en användare
         return new org.springframework.security.core.userdetails.User(
                 appUser.getUsername(),
                 appUser.getPassword(),
                 true, true, true, true,
-        //viktigt: rollen måste prefixas med ROLE_ här
                 List.of(new SimpleGrantedAuthority("ROLE_" + appUser.getRole()))
         );
     }

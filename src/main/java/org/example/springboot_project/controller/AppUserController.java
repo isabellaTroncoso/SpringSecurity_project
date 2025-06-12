@@ -8,6 +8,8 @@ import org.example.springboot_project.model.AppUser;
 import org.example.springboot_project.service.AppUserService;
 import org.springframework.http.ResponseEntity;
 
+// den här klassen är en REST-controller som hanterar registrering och borttagning av användare
+// med hjälp av AppUserService, samt returnerar http-statuskoder
 @RestController
 @RequestMapping("/api")
 public class AppUserController {
@@ -18,12 +20,16 @@ public class AppUserController {
         this.userService = userService;
     }
 
+    // registrerar ny användare med hjälp av data från UserRegistrationDTO
+    // och returnerar http-anrop 200 OK och nya användaren vid lyckad registrering
     @PostMapping("/register")
     public ResponseEntity<AppUser> registerUser(@Valid @RequestBody UserRegistrationDTO dto) {
         AppUser newUser = userService.registerNewUser(dto);
         return ResponseEntity.ok(newUser);
     }
 
+    // kan endast anropas av admin
+    // tar bort användare utifrån id, returnerar ett tomt http-anrop vid lyckad borttagning
     @PreAuthorize("hasRole('ADMIN')")
     @DeleteMapping("/users/{id}")
     public ResponseEntity<Void> deleteUser(@PathVariable Long id) {

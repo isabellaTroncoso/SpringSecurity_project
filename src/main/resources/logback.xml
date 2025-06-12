@@ -1,3 +1,6 @@
+<!-- loggar händelser till filen app.log med tidpunkt, trådnamn, loggnivå,
+klassnamn samt meddelande -->
+<!-- append = false, vilket innebär att filen skriv över varje gång appen startas -->
 <configuration>
     <appender name="FILE" class="ch.qos.logback.core.FileAppender">
         <file>app.log</file>

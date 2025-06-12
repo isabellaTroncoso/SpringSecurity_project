@@ -3,6 +3,9 @@ import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.Pattern;
 import jakarta.validation.constraints.AssertTrue;
 
+
+// den här klassen används för att ta in data från klienten vid registrering av nya användare
+// den har också regler för validering av fälten när användaren skapas
 public class UserRegistrationDTO {
 
     @NotBlank(message = "Username måste anges")

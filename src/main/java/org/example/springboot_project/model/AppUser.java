@@ -2,6 +2,7 @@ package org.example.springboot_project.model;
 
 import jakarta.persistence.*;
 
+// den här är en entity-klass vilket sparar information i databasen
 @Entity
 public class AppUser {
 
