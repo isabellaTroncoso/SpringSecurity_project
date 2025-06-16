@@ -14,7 +14,10 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 
-// den här klassen är en REST-controller som hanterar autentisering vid inloggning
+/**
+ * den här klassen är en REST-controller som hanterar autentisering vid inloggning
+ */
+
 @RestController
 @RequestMapping("/api")
 public class AuthController {
@@ -26,8 +29,13 @@ public class AuthController {
         this.tokenService = tokenService;
     }
 
-    // vid inloggning tar den här metoden emot data från klienten
-    // och returnerar en JWT-token om inloggningen lyckas
+    /**
+     * @param loginRequest
+     * @return ResponseEntity
+     *   vid inloggning tar den här metoden emot data från klienten
+     *      och returnerar en JWT-token om inloggningen lyckas
+     */
+
     @PostMapping("/login")
     public ResponseEntity<String> token(@RequestBody LoginRequest loginRequest) {
         try {

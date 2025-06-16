@@ -10,11 +10,19 @@ import org.springframework.validation.FieldError;
 import java.util.HashMap;
 import java.util.Map;
 
-// den här klassen hanterar exceptions vid valideringsfel
+/**
+ * den här klassen hanterar exceptions vid valideringsfel
+ */
+
 @RestControllerAdvice
 public class ValidationExceptionHandler {
 
-    // den här metoden tar in exception och returnerar ett http-svar med bad request
+    /**
+     * @param ex
+     * @return ResponseEntity
+     * den här metoden tar in exception och returnerar ett http-svar med bad request
+     */
+
     @ExceptionHandler(MethodArgumentNotValidException.class)
     public ResponseEntity<Map<String, String>> handleValidationExceptions(MethodArgumentNotValidException ex) {
         Map<String, String> errors = new HashMap<>();

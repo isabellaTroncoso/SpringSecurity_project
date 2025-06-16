@@ -12,8 +12,9 @@ import java.util.List;
 import java.util.Optional;
 
 
-// den här klassen hämtar en användare från databasen utifrån användarnamn
-
+/**
+ * den här klassen hämtar en användare från databasen utifrån användarnamn
+ */
 @Service
 public class MyUserDetailsService implements UserDetailsService {
     private AppUserRepository appUserRepository;
@@ -22,8 +23,13 @@ public class MyUserDetailsService implements UserDetailsService {
         this.appUserRepository = appUserRepository;
     }
 
-    // den här metoden kollar om en användare finns i databasen
-    // och returnerar ett objekt som motsvarar användaren
+    /**
+     * @param username
+     * @return UserDetails
+     * @throws UsernameNotFoundException
+     *  den här metoden kollar om en användare finns i databasen
+     *   och returnerar ett objekt som motsvarar användaren
+     */
     @Override
     public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
         Optional<AppUser> appUserOptional = appUserRepository.findByUsername(username);

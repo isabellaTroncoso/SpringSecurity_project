@@ -33,15 +33,24 @@ import java.security.interfaces.RSAPrivateKey;
 import java.security.interfaces.RSAPublicKey;
 import java.util.UUID;
 
-// den här klassen tar hand om säkerhet och autentisering av login och register med hjälp av en JWT-token
 
+
+/**
+ * den här klassen tar hand om säkerhet och autentisering av login och register med hjälp av en JWT-token
+ */
 @Configuration
 @EnableWebSecurity
 @EnableMethodSecurity
 public class SecurityConfig {
 
 
-    // den här metoden tar hand om autentisering och vem som har tillgång till vilka endpoints
+    /**
+     * @param http
+     * @return jwtAuth
+     * @throws Exception
+     * den här metoden tar hand om autentisering och vem som har tillgång till vilka endpoints
+     */
+
     @Bean
     public SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
         http
@@ -62,13 +71,22 @@ public class SecurityConfig {
         return http.build();
     }
 
-    // den här metoden returnerar hashade lösenord till bcrypt-kod
+    /**
+     * @return Bcrypt
+     * den här metoden returnerar hashade lösenord till bcrypt-kod
+     */
+
     @Bean
     public PasswordEncoder passwordEncoder() {
         return new BCryptPasswordEncoder();
     }
 
-    // den här metoden genererar ett nyckelpar som används när man loggar in med JWT
+    /**
+     * @return keypair
+     * @throws Exception
+     * den här metoden genererar ett nyckelpar som används när man loggar in med JWT
+     */
+
     @Bean
     public KeyPair keyPair() throws Exception {
         KeyPairGenerator generator = KeyPairGenerator.getInstance("RSA");
@@ -76,7 +94,12 @@ public class SecurityConfig {
         return generator.generateKeyPair();
     }
 
-    // den här metoden skapar en nyckel utifrån JSON format som ingår i JWT, med hjälp av RSA-keypair
+    /**
+     * @param keyPair
+     * @return jwkSet
+     * den här metoden skapar en nyckel utifrån JSON format som ingår i JWT, med hjälp av RSA-keypair
+     */
+
     @Bean
     public JWKSource<SecurityContext> jwkSource(KeyPair keyPair) {
         RSAKey rsaKey = new RSAKey.Builder((RSAPublicKey) keyPair.getPublic())
@@ -87,19 +110,35 @@ public class SecurityConfig {
         return (jwkSelector, context) -> jwkSelector.select(jwkSet);
     }
 
-    // den här metoden skapar en privat JWT-token
+    /**
+     * @param jwkSource
+     * @return jwtEncoder
+     * den här metoden skapar en privat JWT-token
+     */
+
     @Bean
     public JwtEncoder jwtEncoder(JWKSource<SecurityContext> jwkSource) {
         return new NimbusJwtEncoder(jwkSource);
     }
 
-    // den här metoden validerar JWT-token med hjälp av publik nyckel
+    /**
+     * @param keyPair
+     * @return publicKey
+     *  den här metoden validerar JWT-token med hjälp av publik nyckel
+     */
+
     @Bean
     public JwtDecoder jwtDecoder(KeyPair keyPair) {
         return NimbusJwtDecoder.withPublicKey((RSAPublicKey) keyPair.getPublic()).build();
     }
 
-    // den här metoden autentiserar användare utifrån userDetailsService och validerar lösenord med hjälp av passwordEncoder
+    /**
+     * @param userDetailsService
+     * @param passwordEncoder
+     * @return providerManager
+     * den här metoden autentiserar användare utifrån userDetailsService och validerar lösenord med hjälp av passwordEncoder
+     */
+
     @Bean
     public AuthenticationManager authenticationManager(
             UserDetailsService userDetailsService,
@@ -110,7 +149,11 @@ public class SecurityConfig {
         return new ProviderManager(provider);
     }
 
-    // den här metoden konverterar en JWT-token i Spring Security och tolkar användarnas roller
+    /**
+     * @return authenticationConverter
+     * den här metoden konverterar en JWT-token i Spring Security och tolkar användarnas roller
+     */
+
     @Bean
     public JwtAuthenticationConverter jwtAuthenticationConverter() {
         JwtGrantedAuthoritiesConverter converter = new JwtGrantedAuthoritiesConverter();

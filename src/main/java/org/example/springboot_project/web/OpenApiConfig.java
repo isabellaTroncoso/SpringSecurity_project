@@ -6,9 +6,12 @@ import io.swagger.v3.oas.annotations.info.Info;
 import io.swagger.v3.oas.annotations.security.SecurityRequirement;
 import io.swagger.v3.oas.annotations.security.SecurityScheme;
 
-// denna klass dyker upp i swagger när vi tar in vår JWT-token i autentisering,
-// och ger info om vad för typ att autentisering vi får
 
+
+/**
+ * denna klass dyker upp i swagger när vi tar in vår JWT-token i autentisering,
+ * och ger info om vad för typ att autentisering vi får
+ */
 @OpenAPIDefinition(
         info = @Info(title = "API med JWT"
                 , version = "1.0"),

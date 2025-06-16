@@ -11,9 +11,12 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.security.crypto.password.PasswordEncoder;
 
-// det här är en service-klass som registrerar och tar bort användare
-// samt initialiserar en admin-användare vid uppstart
 
+
+/**
+ * det här är en service-klass som registrerar och tar bort användare
+ * samt initialiserar en admin-användare vid uppstart
+ */
 @Service
 public class AppUserService {
     @Autowired
@@ -33,7 +36,12 @@ public class AppUserService {
         this.passwordEncoder = passwordEncoder;
     }
 
-    // den här metoden registrerar en ny användare och krypterar lösenordet samt sparar infon i loggen
+    /**
+     * @param dto
+     * @return log
+     * den här metoden registrerar en ny användare och krypterar lösenordet samt sparar infon i loggen
+     */
+
     @Transactional
     public AppUser registerNewUser(UserRegistrationDTO dto) {
         if (repository.existsByUsername(dto.getUsername())) {
@@ -51,7 +59,11 @@ public class AppUserService {
         return saved;
     }
 
-    // den här metoden tar bort en användare utifrån id:t samt sparar infon i loggen
+    /**
+     * @param id
+     * den här metoden tar bort en användare utifrån id:t samt sparar infon i loggen
+     */
+
     @Transactional
     public void deleteUser(Long id) {
         if (!repository.existsById(id)) {
@@ -62,7 +74,10 @@ public class AppUserService {
         logger.log("Tog bort användare med ID: " + id);
     }
 
-    // initierar en admin-användare i databasen när app startas om den inte finns
+    /**
+     * initierar en admin-användare i databasen när app startas om den inte finns
+     */
+
     @PostConstruct
     public void init() {
         if (repository.findByUsername("user").isEmpty()) {

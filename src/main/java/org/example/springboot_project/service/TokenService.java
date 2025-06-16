@@ -12,7 +12,10 @@ import java.time.Instant;
 import java.time.temporal.ChronoUnit;
 import java.util.stream.Collectors;
 
-// klassen genererar en JWT-token
+/**
+ * klassen genererar en JWT-token
+ */
+
 @Service
 public class TokenService {
 
@@ -22,7 +25,12 @@ public class TokenService {
         this.jwtEncoder = jwtEncoder;
     }
 
-    // efter inloggning genereras en unik token för att autentisera roller
+    /**
+     * @param authentication
+     * @return jwtEncoder
+     * efter inloggning genereras en unik token för att autentisera roller
+     */
+
     public String generateToken(Authentication authentication) {
         Instant now = Instant.now();
         String scope = authentication.getAuthorities().stream()
