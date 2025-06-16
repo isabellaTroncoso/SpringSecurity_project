@@ -15,9 +15,8 @@ import org.springframework.security.authentication.UsernamePasswordAuthenticatio
 import org.springframework.security.core.Authentication;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.test.web.servlet.MockMvc;
-
 import java.util.Optional;
-
+import org.junit.jupiter.api.BeforeEach;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.delete;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
@@ -47,6 +46,18 @@ public class LoginTest {
     private AuthenticationManager manager;
     private String token;
 
+    @BeforeEach
+    void setupUser() {
+
+        userRepository.deleteAll();
+
+        AppUser user = new AppUser();
+        user.setUsername("user");
+        user.setPassword(encoder.encode("password"));
+        user.setRole("ADMIN");
+        user.setConsentGiven(true);
+        userRepository.save(user);
+    }
 
     @Test
     void shouldLoginSuccessfullyAndReturnToken() throws Exception {
@@ -66,7 +77,7 @@ public class LoginTest {
     @Test
     void shouldRegisterUser() throws Exception {
         UserRegistrationDTO dto = new UserRegistrationDTO();
-        dto.setUsername("user1");
+        dto.setUsername("user2");
         dto.setPassword("Password1");
         dto.setConsentGiven(true);
         dto.setRole("ADMIN");
@@ -79,35 +90,17 @@ public class LoginTest {
 
     @Test
     void shouldDeleteUserWithValidToken() throws Exception {
-        // Skapa en användare först
-        UserRegistrationDTO dto = new UserRegistrationDTO();
-        dto.setUsername("testing2");
-        dto.setPassword("Pasword1");
-        dto.setConsentGiven(true);
-        dto.setRole("ADMIN");
+        // Hämta användaren som skapats i @BeforeEach
+        Optional<AppUser> foundUser = userRepository.findByUsername("user");
+        Long idToDelete = foundUser.get().getId();
 
-        mockMvc.perform(post("/api/register")
-                        .contentType(MediaType.APPLICATION_JSON)
-                        .content(mapper.writeValueAsString(dto)))
-                .andExpect(status().isOk());
-
-        // Hämta id på användaren (från databasen direkt om du vill)
-
-        Optional<AppUser> foundUser = userRepository.findByUsername("testing2");
-
-        Long idToDelete = foundUser.get().getId(); // Byt mot riktigt ID
-
-
+        // Autentisera användaren och generera JWT-token
         Authentication auth = manager.authenticate(
-                new UsernamePasswordAuthenticationToken(
-                        "user", "password"
-                ));
-
+                new UsernamePasswordAuthenticationToken("user", "password")
+        );
         String token = service.generateToken(auth);
 
-        System.out.println("Token: " + token);
-
-
+        // Försök att ta bort användaren med korrekt token
         mockMvc.perform(delete("/api/users/" + idToDelete)
                         .header("Authorization", "Bearer " + token))
                 .andExpect(status().is2xxSuccessful());
